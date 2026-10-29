@@ -82,6 +82,13 @@ section[id] {
   scroll-margin-top: 5.4rem;
 }
 
+input[id],
+select[id],
+textarea[id] {
+  scroll-margin-top: 7rem;
+  scroll-margin-bottom: 7rem;
+}
+
 ::selection {
   background: var(--color-teal);
   color: #10201f;
