@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+artifacts/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Private source workbooks and archives
+*.xlsx
+*.xls
+*.xlsm
+*.zip
+
+# Local tooling and OS files
+.vercel/
+.vite/
+*.log
+.DS_Store
+Thumbs.db
