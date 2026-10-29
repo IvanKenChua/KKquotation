@@ -3,6 +3,7 @@ import { calculateQuote, defaultQuoteInput } from "@/pricing/engine";
 import { formatCurrency } from "@/pricing/format";
 import {
   buildQuotation,
+  buildQuotationMailto,
   buildShareText,
   createQuotationMeta,
   generateQuotationNumber,
@@ -140,5 +141,22 @@ describe("client quotation", () => {
     const quotationMeta = createQuotationMeta(new Date(2026, 9, 30));
     expect(quotationMeta.quotationDate).toBe("2026-10-30");
     expect(quotationMeta.validUntil).toBe("2026-11-13");
+  });
+
+  it("Scenario J: builds a prefilled email draft without auto-sending", () => {
+    const quotation = buildQuotation(socialCalculation(), details, meta);
+    const mailto = buildQuotationMailto(quotation, "kenvaskreative@gmail.com");
+    const [address, query = ""] = mailto.split("?");
+    const params = new URLSearchParams(query);
+    const subject = params.get("subject") ?? "";
+    const body = params.get("body") ?? "";
+
+    expect(address).toBe("mailto:kenvaskreative@gmail.com");
+    expect(subject).toContain("Quotation request KK-20261030-TEST");
+    expect(subject).toContain("Northline Coffee campaign");
+    expect(body).toContain("I would like to request the following design quotation");
+    expect(body).toContain("not a confirmed booking");
+    expect(body).toContain("KK-20261030-TEST");
+    expect(body).toContain("Client email: client@example.com");
   });
 });
